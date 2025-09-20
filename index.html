@@ -1,13 +1,2112 @@
 <!DOCTYPE html>
-
 <html>
-   <head>
-      <title>2nd RTUT Openhouse</title>
-      <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUT_logo_ENG_black.png">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <base target="_top">
-   </head>
-   <body>
-      <iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;border: 0;" src="https://script.google.com/macros/s/AKfycbxmnBII5rKqsCS7qF9dw6QZUQj09zYDyGPGJrLYxRbPHEZCQzv4f044phVBFYjAH2qxWg/exec"></iframe>
-   </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2nd RTUT OPENHOUSE</title>
+
+  <!-- ✅ Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+  <!-- ✅ Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- ✅ sweetalert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- ✅ Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&family=Athiti:wght@200;300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mitr:wght@200;300;400;500;600;700&family=Noto+Sans+Thai:wght@100..900&family=Playpen+Sans+Thai:wght@100..800&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+  <!-- ✅ jspdf -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- ✅ html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --surface-muted: #f1f5f9;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --success: #16a34a;
+      --success-dark: #15803d;
+    }
+
+    * {
+      font-family: "IBM Plex Sans Thai", sans-serif;
+    }
+
+    .hidden { display: none; }
+    
+    body {
+      background-image: url('https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUTOPENHOUSE_Graphic01.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    /* Override for admin and login sections to have solid background */
+    body.admin-mode {
+      background: #f8fafc !important;
+      background-image: none !important;
+      min-height: 100vh;
+    }
+
+    body.admin-mode #mainContainer {
+      max-width: 100% !important;
+      width: 100% !important;
+      margin: 0;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    /* Full screen container for admin section */
+    .container.fullscreen {
+      max-width: none;
+      width: 100%;
+      padding: 24px;
+      margin: 0;
+      background: #f8fafc;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .app-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .app-logo {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .app-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0;
+      letter-spacing: -0.025em;
+    }
+
+    .app-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(10px);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    /* Phone Input */
+    .phone-input {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 500;
+      text-align: center;
+      letter-spacing: 2px;
+      width: 100%;
+      margin-bottom: 24px;
+      transition: all 0.2s ease;
+    }
+
+    .phone-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+    }
+
+    .phone-input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Numpad */
+    .numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .num-btn, .action-btn {
+      height: 56px;
+      border: none;
+      border-radius: 12px;
+      font-size: 20px;
+      font-weight: 500;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      transition: all 0.15s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .num-btn:hover, .action-btn:hover {
+      background: var(--surface-muted);
+      transform: translateY(-1px);
+    }
+
+    .num-btn:active, .action-btn:active {
+      transform: translateY(0);
+    }
+
+    .search-btn {
+      background: var(--primary);
+      color: white;
+      border: 1px solid var(--primary);
+      font-size: 16px;
+    }
+
+    .search-btn:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+
+    .backspace-btn {
+      background: #ef4444;
+      color: white;
+      border: 1px solid #ef4444;
+    }
+
+    .backspace-btn:hover {
+      background: #dc2626;
+      border-color: #dc2626;
+    }
+
+    .numpad-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: var(--success);
+      border: 1px solid var(--success);
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-weight: 500;
+      font-size: 14px;
+      color: #ffffff;
+      transition: all 0.15s ease;
+    }
+
+    .btn-success:hover {
+      background: var(--success-dark);
+      border-color: var(--success-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-secondary {
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-weight: 500;
+      font-size: 14px;
+      background: var(--surface);
+      transition: all 0.15s ease;
+    }
+
+    .btn-outline-secondary:hover {
+      background: var(--surface-muted);
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .btn-ghost:hover {
+      background: var(--surface-muted);
+      color: var(--text);
+    }
+
+    /* Forms */
+    .form-control {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 14px;
+      transition: all 0.15s ease;
+      background: var(--surface);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+    }
+
+    .form-select {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 14px;
+      background: var(--surface);
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    /* Result Card */
+    .result-card {
+      background: rgba(255, 255, 255, 0.60); /* โปร่งใส 25% เหมือน keypadDiv */
+      border: 1px solid rgba(255, 255, 255, 0.8); 
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);  /* เบลอเล็กน้อย */
+      -webkit-backdrop-filter: blur(10px); /* Safari */
+      text-align: center;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .result-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* กล่องเน้นข้อมูล */
+    .result-card .info-box {
+      background: rgba(255, 255, 255, 0.55); /* โปร่งใสกว่าการ์ดหลักนิดหน่อย */
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .result-card h5 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .result-card p {
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .result-card .highlight {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .result-card .highlight001 {
+      color: var(--text);
+    }
+
+    .card-img {
+      border-radius: 12px;
+      max-height: 220px;
+      object-fit: contain;
+      width: 100%;
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-img-group {
+      border-radius: 12px;
+      max-height: 100%;
+      object-fit: contain;
+      width: 100%;
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Admin Section */
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .admin-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .admin-user {
+      font-size: 16px;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      background: var(--surface-muted);
+      border-radius: 20px;
+    }
+
+    /* Table */
+    .table {
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 16px;
+    }
+
+    .table th {
+      background: var(--surface-soft);
+      border-bottom: 1px solid var(--border);
+      font-weight: 500;
+      color: var(--text);
+      padding: 20px 16px;
+    }
+
+    .table td {
+      padding: 20px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table tbody tr:hover {
+      background: var(--surface-soft);
+    }
+
+    /* Buttons in table */
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 14px;
+      border-radius: 6px;
+      margin-right: 8px;
+    }
+
+    /* Modal */
+    .modal-content {
+      border: none;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-header {
+      border-bottom: 1px solid var(--border);
+      padding: 24px 28px 20px;
+    }
+
+    .modal-body {
+      padding: 24px 28px;
+    }
+
+    .modal-footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 28px 24px;
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Pagination */
+    .pagination .page-link {
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 10px 16px;
+      margin: 0 3px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .pagination .page-item.active .page-link {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .pagination .page-link:hover {
+      background: var(--surface-muted);
+      border-color: var(--border);
+    }
+
+    #spinner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      display: none; /* เริ่มซ่อน */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #spinner:not(.hidden) {
+      display: flex;
+    }
+
+    /* Spinner ปรับ UI ให้สวยขึ้น */
+    #spinner .spinner-border {
+      width: 4rem;
+      height: 4rem;
+      border-width: 0.5rem;
+      border-color: #0d6efd #cfe2ff #0d6efd #cfe2ff; /* gradient look */
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    /* ข้อความใต้ spinner */
+    #spinner .spinner-text {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    /* keyframes หมุน */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Filters */
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-bottom: 16px;
+      align-items: end;
+    }
+
+    /* ทำให้ keypad กลมกลืนกับพื้นหลัง */
+    #keypadDiv {
+      background: rgba(255, 255, 255, 0.25); /* โปร่งใส 25% */
+      backdrop-filter: blur(10px);           /* เบลอพื้นหลังเล็กน้อย */
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    /* ปรับปุ่ม numpad ให้โปร่งใส */
+    .num-btn {
+      background: rgba(255, 255, 255, 0.35) !important; /* พื้นหลังโปร่งใส */
+      border: 1px solid rgba(255, 255, 255, 0.4);       /* เส้นขอบเบาๆ */
+      color: #000;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .num-btn:hover {
+      background: rgba(255, 255, 255, 0.6) !important; /* hover ชัดขึ้น */
+    }
+
+    /* Emoji Game Styles */
+    .emoji-game {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+
+    /* ซ่อน overlay ตอนโหลด */
+    #emojiGame.hidden {
+      display: none !important;
+    }
+
+    /* overlay ครอบทั้งหน้าจอ */
+    #emojiGame {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6); /* มืดโปร่งแสง */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    /* เนื้อหาเกม */
+    .emoji-game-content {
+      text-align: center;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .emoji-display {
+      font-size: 120px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    .emoji-display:hover {
+      transform: scale(1.1);
+    }
+
+    .emoji-display:active {
+      transform: scale(0.9);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-30px); }
+      60% { transform: translateY(-15px); }
+    }
+
+    .emoji-clicked {
+      animation: bounce 0.6s ease;
+    }
+
+    .click-counter {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 20px;
+    }
+
+    .click-instruction {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #10b981);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .app-logo {
+        max-width: 250px;
+      }
+      
+      .container.fullscreen {
+        padding: 16px;
+      }
+      
+      .admin-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .admin-actions {
+        justify-content: center;
+      }
+      
+      .filters {
+        grid-template-columns: 1fr;
+      }
+      
+      .table {
+        font-size: 13px;
+      }
+      
+      .table th, .table td {
+        padding: 12px 8px;
+      }
+      
+      .emoji-display {
+        font-size: 80px;
+      }
+      
+      .emoji-game-content {
+        padding: 30px 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .app-logo {
+        max-width: 200px;
+      }
+      
+      .container {
+        padding: 16px 12px;
+      }
+      
+      .container.fullscreen {
+        padding: 12px;
+      }
+      
+      .table {
+        font-size: 12px;
+      }
+      
+      .table th, .table td {
+        padding: 8px;
+      }
+      
+      .emoji-display {
+        font-size: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Emoji Game Overlay -->
+  <div id="emojiGame" class="emoji-game hidden">
+    <div class="emoji-game-content">
+      <div class="click-instruction">กด 🎯 ให้ครบ 10 ครั้ง เพื่อดูข้อมูล!</div>
+      <div class="emoji-display" id="emojiTarget">🎯</div>
+      <div class="click-counter">
+        คลิกแล้ว: <span id="clickCount">0</span>/10
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="mainContainer">
+
+    <!-- Search Section -->
+    <div id="searchSection">
+      <div class="app-header">
+        <img src="https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUTOPENHOUSE_Logo01.png" alt="RTUT OPENHOUSE" class="app-logo">
+        <!-- <p class="app-subtitle">ค้นหาข้อมูลผู้เข้าร่วม</p> -->
+      </div>
+
+      <div class="card" id="keypadDiv">
+        <input 
+          type="text" 
+          id="phoneInput" 
+          class="phone-input" 
+          placeholder="กรอกเบอร์โทรศัพท์" 
+          readonly 
+          maxlength="10"
+        >
+        
+        <div class="numpad">
+          <button class="num-btn">1</button>
+          <button class="num-btn">2</button>
+          <button class="num-btn">3</button>
+          <button class="num-btn">4</button>
+          <button class="num-btn">5</button>
+          <button class="num-btn">6</button>
+          <button class="num-btn">7</button>
+          <button class="num-btn">8</button>
+          <button class="num-btn">9</button>
+        </div>
+        
+        <div class="numpad-actions">
+          <button class="action-btn backspace-btn" id="backspace"><i class="fa-solid fa-delete-left"></i></button>
+          <button class="num-btn">0</button>
+          <button class="action-btn search-btn" onclick="search()"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+      </div>
+
+      <div id="spinner" class="text-center hidden">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">กำลังโหลด</span>
+        </div>
+        <p class="spinner-text">กำลังโหลด</p>
+      </div>
+
+      <div id="result" class="mb-3"></div>
+
+      <div class="result-card">
+        <div class="text-center" id="actionButtons">
+<!--           <button class="btn-ghost" id="loginBtn" onclick="showLogin()"><i class="fa-solid fa-user-lock"></i> เข้าสู่ระบบเจ้าหน้าที่</button>
+          <button class="btn btn-primary hidden" id="resetBtn" onclick="resetSearch()"><i class="fa-solid fa-rotate-right"></i> ค้นหาใหม่</button> -->
+          <button class="btn btn-success hidden" id="downloadBtn" onclick="downloadImage()"><i class="fa-solid fa-download"></i> Download รูปกลุ่ม</button>
+        </div>
+      </div>
+
+        <!-- <div class="text-center" id="actionButtons">
+<!--           <button class="btn-ghost" id="loginBtn" onclick="showLogin()">เข้าสู่ระบบเจ้าหน้าที่</button>
+          <button class="btn btn-primary hidden" id="resetBtn" onclick="resetSearch()">ค้นหาใหม่</button> -->
+          <button class="btn btn-success hidden" id="downloadBtn" onclick="downloadImage()">Download</button>
+        </div> -->
+    </div>
+
+    <!-- Login Section -->
+    <div id="loginSection" class="hidden">
+      <div class="app-header">
+        <img src="https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUTOPENHOUSE_Logo01.png" alt="RTUT OPENHOUSE" class="app-logo">
+      </div>
+
+      <div class="card">
+          <h1 class="app-title text-center">เข้าสู่ระบบ</h1>
+          <p class="app-subtitle text-center">สำหรับเจ้าหน้าที่</p>
+        <div class="mb-3">
+          <label class="form-label"><i class="fa-solid fa-envelope"></i> Email</label>
+          <input type="email" id="adminEmail" class="form-control" placeholder="Enter your email">
+        </div>
+        <div class="mb-4">
+          <label class="form-label"><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="adminPassword" class="form-control" placeholder="Enter password">
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary flex-fill" onclick="login()"><i class="fa-solid fa-right-to-bracket"></i> เข้าสู่ระบบ</button>
+          <button class="btn btn-outline-secondary" onclick="backToHome()"><i class="fa-solid fa-house-chimney"></i> กลับ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Section -->
+    <div id="adminSection" class="hidden">
+      <div class="admin-header">
+        <div>
+          <!-- โลโก้ + ข้อความหัวข้อ -->
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img 
+              src="https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUT_logo_ENG_black.png" 
+              alt="RTUT Logo" 
+              style="height: 50px;"
+              class="me-3"
+            >
+            <h2 class="admin-title mb-0">จัดการข้อมูลกลุ่ม 2nd RTUT Openhouse</h2>
+          </div>
+
+          <!-- ชื่อผู้ดูแล -->
+          <div class="admin-user mt-2" id="adminNameDisplay"></div>
+        </div>
+        <div class="admin-actions">
+          <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addModal"><i class="fa-solid fa-plus"></i> Add Data</button>
+          <button class="btn btn-outline-secondary btn-sm" onclick="refreshData()"><i class="fa-solid fa-arrows-rotate"></i> Refresh Data</button>
+          <button class="btn btn-outline-secondary btn-sm" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input 
+          type="text" 
+          id="searchAdmin" 
+          class="form-control" 
+          placeholder="ค้นหา ชื่อ, เบอร์, หรือกลุ่ม" 
+          oninput="filterData()"
+        >
+        <select id="rowsPerPage" class="form-select" style="width: auto;" onchange="changeRowsPerPage()">
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th onclick="sortTable('id')" style="cursor: pointer;">ID</th>
+              <th onclick="sortTable('phone')" style="cursor: pointer;">เบอร์โทร</th>
+              <th onclick="sortTable('name')" style="cursor: pointer;">ชื่อ</th>
+              <th onclick="sortTable('group_name')" style="cursor: pointer;">กลุ่ม</th>
+              <th>จัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="dataTable"></tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <nav class="d-flex justify-content-center align-items-center mt-3 gap-3">
+        <ul class="pagination mb-0" id="pagination"></ul>
+        <div class="d-flex gap-2 align-items-center">
+          <input 
+            type="number" 
+            id="jumpPage" 
+            class="form-control" 
+            style="width:100px;" 
+            min="1" 
+            placeholder="หน้า" 
+            onkeydown="if(event.key==='Enter'){jumpToPage();}"
+          >
+          <button class="btn btn-outline-secondary btn-sm" onclick="jumpToPage()">ไป</button>
+        </div>
+      </nav>
+
+      <!-- Export Buttons -->
+      <div class="text-center mt-3">
+        <button class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#exportCsvModal">
+          <i class="fa-solid fa-file-csv"></i> Export CSV
+        </button>
+        <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exportPdfModal">
+          <i class="fa-solid fa-file-pdf"></i> Export PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Modal -->
+  <div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fa-solid fa-plus"></i> เพิ่มข้อมูลใหม่</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-phone"></i> เบอร์โทรศัพท์</label>
+            <input type="text" id="addPhone" class="form-control" placeholder="0812345678">
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-user"></i> ชื่อ - สกุล</label>
+            <input type="text" id="addName" class="form-control" placeholder="ชื่อ สกุล">
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-people-group"></i> กลุ่ม</label>
+            <select id="addGroup" class="form-select"></select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i> ยกเลิก</button>
+          <button class="btn btn-primary" onclick="addRecord()"><i class="fa-solid fa-floppy-disk"></i> บันทึก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fa-solid fa-user-pen"></i> แก้ไขข้อมูล</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editId">
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-phone"></i> เบอร์โทรศัพท์</label>
+            <input type="text" id="editPhone" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-user"></i> ชื่อ - สกุล</label>
+            <input type="text" id="editName" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-people-group"></i> กลุ่ม</label>
+            <select id="editGroup" class="form-select"></select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i> ยกเลิก</button>
+          <button class="btn btn-primary" onclick="updateRecord()"><i class="fa-solid fa-floppy-disk"></i> อัปเดต</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export CSV Modal -->
+  <div class="modal fade" id="exportCsvModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fa-solid fa-file-csv"></i> เลือกการ Export CSV</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-gear"></i> รูปแบบการส่งออก</label>
+            <select id="exportCsvOption" class="form-select" onchange="toggleCsvGroupSelect()">
+              <option value="all">📑 ส่งออกทั้งหมด</option>
+              <option value="group">👥 เลือกเฉพาะกลุ่ม</option>
+            </select>
+          </div>
+          <div class="mb-3 hidden" id="csvGroupSelectDiv">
+            <label class="form-label"><i class="fa-solid fa-people-group"></i> เลือกกลุ่ม</label>
+            <select id="exportCsvGroup" class="form-select"></select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i> ยกเลิก</button>
+          <button class="btn btn-primary" onclick="confirmExportCSV()"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export PDF Modal -->
+  <div class="modal fade" id="exportPdfModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fa-solid fa-file-pdf"></i> เลือกการ Export PDF</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-gear"></i> รูปแบบการส่งออก</label>
+            <select id="exportOption" class="form-select" onchange="toggleGroupSelect()">
+              <option value="all">📑 ส่งออกทั้งหมด</option>
+              <option value="group">👥 เลือกเฉพาะกลุ่ม</option>
+            </select>
+          </div>
+          <div class="mb-3 hidden" id="groupSelectDiv">
+            <label class="form-label"><i class="fa-solid fa-people-group"></i> เลือกกลุ่ม</label>
+            <select id="exportGroup" class="form-select">
+              <!-- จะเติมค่าอัตโนมัติจาก allData -->
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i> ยกเลิก</button>
+          <button class="btn btn-primary" onclick="confirmExportPDF()"><i class="fa-solid fa-file-pdf"></i> Export PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    const API_URL = "https://script.google.com/macros/s/AKfycbx8a7fafrMytsd9XYIrei9wzkthRTcjOnh82m7k6-LBCjkbewTEkLZUN4MerLntM9_d/exec";
+
+    let groups = [];
+    let editModal;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      editModal = new bootstrap.Modal(document.getElementById("editModal"));
+    });
+
+    // ตัวแปร Emoji Game
+    let clickCount = 0;
+    const targetClicks = 10;
+    const emojiGame = document.getElementById('emojiGame');
+    const emojiTarget = document.getElementById('emojiTarget');
+    const clickCounter = document.getElementById('clickCount');
+    const progressFill = document.getElementById('progressFill');
+
+    // เรียก Emoji Target คลิก
+    emojiTarget.addEventListener('click', () => {
+      clickCount++;
+      clickCounter.textContent = clickCount;
+      progressFill.style.width = `${(clickCount / targetClicks) * 100}%`;
+      emojiTarget.classList.add('emoji-clicked');
+
+      setTimeout(() => {
+        emojiTarget.classList.remove('emoji-clicked');
+      }, 600);
+
+      if (clickCount >= targetClicks) {
+        // ปิด Emoji Game
+        emojiGame.classList.add('hidden');
+        clickCount = 0;
+        clickCounter.textContent = '0';
+        progressFill.style.width = '0%';
+
+        // เรียก search จริง
+        performSearch();
+      }
+    });
+
+    function search() {
+      const phone = phoneInput.value;
+
+      if (phone.length < 10) {
+        Swal.fire({
+          icon: 'error', // ไอคอนที่ต้องการ
+          title: 'ผิดพลาด',
+          text: 'กรุณากรอกเบอร์โทรให้ครบ 10 หลัก',
+          showConfirmButton: true,
+          confirmButtonText: 'ตกลง',
+          confirmButtonColor: '#198754', // สีเขียว
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+        return;
+      }
+
+      if (phone.length > 10) {
+        Swal.fire({
+          icon: 'error',
+          title: 'ผิดพลาด',
+          text: 'คุณกรอกเบอร์โทรเกิน 10 หลัก',
+          showConfirmButton: true,
+          confirmButtonText: 'ตกลง',
+          confirmButtonColor: '#198754',
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+        return;
+      }
+
+      // แสดง Emoji Game ก่อน search
+      emojiGame.classList.remove('hidden');
+
+      // บันทึกหมายเลขโทรศัพท์สำหรับ search จริง
+      window._pendingPhoneSearch = phone;
+    }
+
+    // ฟังก์ชันเรียก search จริง (ใช้ fetch API แทน google.script.run)
+    async function performSearch() {
+      const phone = window._pendingPhoneSearch;
+      if (!phone) return;
+
+      showSpinner();
+
+      try {
+        const res = await fetch(`${API_URL}?action=searchByPhone&phone=${encodeURIComponent(phone)}`);
+        const data = await res.json();
+
+        hideSpinner();
+        showResult(data);
+      } catch (err) {
+        hideSpinner();
+        Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: "ไม่สามารถเชื่อมต่อ API ได้",
+          confirmButtonColor: "#198754"
+        });
+      }
+
+      // เคลียร์ค่า pending
+      window._pendingPhoneSearch = null;
+    }
+
+    function showSpinner() {
+      document.getElementById("spinner").classList.remove("hidden");
+    }
+
+    function hideSpinner() {
+      document.getElementById("spinner").classList.add("hidden");
+    }
+
+    // แสดงผลลัพธ์
+    function showResult(data) {
+      const resultDiv = document.getElementById("result");
+      const loginBtn = document.getElementById("loginBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const keypadDiv = document.getElementById("keypadDiv");
+
+      loginBtn.classList.add("hidden");
+      resetBtn.classList.remove("hidden");
+
+      if (!data) {
+        Swal.fire({
+          icon: 'error',
+          title: 'ไม่พบข้อมูล',
+          text: 'ไม่พบผู้เข้าร่วมตามเบอร์โทรนี้',
+          showConfirmButton: true,
+          confirmButtonText: 'ตกลง',
+          confirmButtonColor: '#198754',
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+        return;
+      }
+
+      keypadDiv.classList.add("hidden");
+
+      resultDiv.innerHTML = `
+        <div class="result-card">
+          <div class="info-box">
+            <h5 class="mt-3">${data.name}</h5>
+            <p><span class="highlight">${data.phone}</span></p>
+          </div>
+
+          <div class="info-box mt-3">
+            <h5 class="mt-3">Group <span class="highlight001">${data.group_name}</span></h5>
+          </div>
+
+          ${data.group_image_url ? `<img src="${data.group_image_url}" class="card-img-group" alt="Group Image">` : ""}
+        </div>
+
+        <div class="result-card mt-3">
+          ${data.group_qr_url ? `
+            <div class="info-box">
+              <h5 class="mt-3">QR Code Line Openchat</span></h5>
+            </div>
+            <div>
+              <img src="${data.group_qr_url}" class="card-img" alt="QR Code">
+            </div>` : ""}
+
+          ${data.group_line_url ? `<a href="${data.group_line_url}" class="btn btn-success my-3" target="_blank">เข้ากลุ่มไลน์</a>` : ""}
+
+          ${data.manual_url ? `
+            <div class="info-box">
+              <h5 class="mt-3">วิธีเข้า Openchat ตามกลุ่มย่อย</span></h5>
+            </div>
+            <div>
+              <img src="${data.manual_url}" class="card-img-group" alt="Manual">
+            </div>` : ""}
+        </div>
+      `;
+
+      const downloadBtn = document.getElementById("downloadBtn");
+      downloadBtn.classList.remove("hidden");
+    }
+
+    // ฟังก์ชันค้นหาใหม่ (Reset)
+    function resetSearch() {
+      document.getElementById("phoneInput").value = "";
+      document.getElementById("result").innerHTML = "";
+
+      // ซ่อนปุ่มค้นหาใหม่
+      document.getElementById("resetBtn").classList.add("hidden");
+      // แสดงปุ่มเข้าสู่ระบบ
+      document.getElementById("loginBtn").classList.remove("hidden");
+
+      // แสดง keypadDiv อีกครั้ง
+      document.getElementById("keypadDiv").classList.remove("hidden");
+
+      document.getElementById("downloadBtn").classList.add("hidden");
+    }
+
+    function showLogin() {
+      // รีเซ็ตฟอร์มค้นหาและผลลัพธ์
+      document.getElementById("phoneInput").value = "";
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("resetBtn").classList.add("hidden");
+      document.getElementById("loginBtn").classList.remove("hidden");
+
+      // ซ่อน searchSection และแสดง loginSection
+      document.getElementById("searchSection").classList.add("hidden");
+      document.getElementById("loginSection").classList.remove("hidden");
+
+      // รีเซ็ตฟอร์ม login
+      document.getElementById("adminEmail").value = "";
+      document.getElementById("adminPassword").value = "";
+    }
+
+    function backToHome() {
+      // ซ่อน loginSection
+      document.getElementById("loginSection").classList.add("hidden");
+
+      // แสดง searchSection
+      document.getElementById("searchSection").classList.remove("hidden");
+
+      // รีเซ็ตค่า search / result
+      document.getElementById("phoneInput").value = "";
+      document.getElementById("result").innerHTML = "";
+
+      // แสดงปุ่มเข้าสู่ระบบ และซ่อนปุ่มค้นหาใหม่
+      document.getElementById("loginBtn").classList.remove("hidden");
+      document.getElementById("resetBtn").classList.add("hidden");
+
+      // แสดง keypadDiv อีกครั้ง
+      document.getElementById("keypadDiv").classList.remove("hidden");
+
+      // รีเซ็ตฟอร์ม login
+      document.getElementById("adminEmail").value = "";
+      document.getElementById("adminPassword").value = "";
+    }
+
+    async function login() {
+      const email = document.getElementById("adminEmail").value;
+      const password = document.getElementById("adminPassword").value;
+
+      Swal.fire({
+        title: 'กำลังเข้าสู่ระบบ',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      try {
+        const res = await fetch(`${API_URL}?action=adminLogin`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+        const admin = await res.json();
+        Swal.close();
+
+        if (admin) {
+          Swal.fire({
+            icon: 'success',
+            title: 'เข้าสู่ระบบสำเร็จ',
+            showConfirmButton: false,
+            timer: 1000
+          });
+
+          document.body.classList.add("admin-mode");
+          document.getElementById("mainContainer").classList.add("fullscreen");
+          document.getElementById("loginSection").classList.add("hidden");
+          document.getElementById("adminSection").classList.remove("hidden");
+          document.getElementById("adminNameDisplay").innerHTML =
+            `<i class="fa-solid fa-user-gear"></i> ชื่อผู้ใช้งาน : ${admin.first_name} ${admin.last_name}`;
+
+          loadGroups();
+          loadData();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'เข้าสู่ระบบไม่สำเร็จ',
+            text: 'โปรดตรวจสอบ Email และ Password อีกครั้ง',
+            confirmButtonText: 'ลองใหม่',
+            confirmButtonColor: '#ffc107'
+          });
+        }
+      } catch (err) {
+        Swal.fire("Error", "ไม่สามารถเชื่อมต่อ API ได้", "error");
+      }
+    }
+
+    // ออกจากระบบ
+    function logout() {
+      Swal.fire({
+        title: 'ต้องการออกจากระบบหรือไม่?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ใช่',
+        cancelButtonText: 'ไม่',
+        confirmButtonColor: '#198754', // ✅ สีเขียวสำหรับตกลง
+        cancelButtonColor: '#dc3545',  // ✅ สีแดงสำหรับยกเลิก
+        allowOutsideClick: false,      // ไม่สามารถคลิกข้างนอกปิดได้
+        allowEscapeKey: false          // ไม่สามารถกด ESC ปิดได้
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById("adminSection").classList.add("hidden");
+          document.getElementById("loginSection").classList.add("hidden");
+          document.getElementById("searchSection").classList.remove("hidden");
+
+          // 🔹 กลับสู่โหมดปกติ
+          document.body.classList.remove("admin-mode"); 
+          document.getElementById("mainContainer").classList.remove("fullscreen");
+
+          document.getElementById("phoneInput").value = "";
+          document.getElementById("result").innerHTML = "";
+          document.getElementById("loginBtn").classList.remove("hidden");
+          document.getElementById("resetBtn").classList.add("hidden");
+          document.getElementById("adminEmail").value = "";
+          document.getElementById("adminPassword").value = "";
+
+          Swal.fire({
+            icon: 'success',
+            title: 'ออกจากระบบเรียบร้อย',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#198754',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          });
+        }
+      });
+    }
+
+    async function loadGroups() {
+      try {
+        const res = await fetch(`${API_URL}?action=getGroupSettings`);
+        const data = await res.json();
+        groups = data;
+        const sel1 = document.getElementById("addGroup");
+        const sel2 = document.getElementById("editGroup");
+        sel1.innerHTML = sel2.innerHTML =
+          data.map(g => `<option value="${g.group_name}">${g.group_name}</option>`).join("");
+      } catch (err) {
+        Swal.fire("Error", "โหลดกลุ่มไม่สำเร็จ", "error");
+      }
+    }
+
+    let allData = []; // เก็บข้อมูลทั้งหมด
+    let currentPage = 1;
+    let rowsPerPage = 10;
+
+    // โหลดข้อมูล
+    async function loadData() {
+      showSpinner();
+      try {
+        const res = await fetch(`${API_URL}?action=getAllData`);
+        const data = await res.json();
+        hideSpinner();
+        allData = data;
+        currentPage = 1;
+        renderTable();
+      } catch (err) {
+        hideSpinner();
+        Swal.fire("Error", "โหลดข้อมูลไม่สำเร็จ", "error");
+      }
+    }
+
+    function renderTable() {
+      const spinner = document.getElementById("spinner");
+      showSpinner(); // แสดง spinner ก่อนเริ่มประมวลผล
+
+      const searchValue = document.getElementById("searchAdmin").value.toLowerCase();
+      let filtered = allData.filter(r => 
+        r.name.toLowerCase().includes(searchValue) ||
+        r.phone.toLowerCase().includes(searchValue) ||
+        r.group_name.toLowerCase().includes(searchValue)
+      );
+
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const pageData = filtered.slice(start, end);
+
+      const table = document.getElementById("dataTable");
+      table.innerHTML = pageData.map(r => `
+        <tr>
+          <td>${r.id}</td>
+          <td>${r.phone}</td>
+          <td>${r.name}</td>
+          <td>${r.group_name}</td>
+          <td>
+            <button class="btn btn-sm btn-warning" onclick='openEditModal(${r.id}, "${r.phone}", "${r.name}", "${r.group_name}")'><i class="fa-solid fa-user-pen"></i></button>
+            <button class="btn btn-sm btn-danger" onclick='deleteRecord(${r.id})'><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join("");
+
+      renderPagination(filtered.length);
+
+      hideSpinner(); // ซ่อน spinner หลัง render เสร็จ
+    }
+
+    // สร้าง Pagination แบบสมบูรณ์
+    function renderPagination(totalItems) {
+      const pageCount = Math.ceil(totalItems / rowsPerPage);
+      const pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+
+      if (pageCount <= 1) return;
+
+      // หน้าแรก
+      pagination.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="goPage(1); return false;"><i class="fa-solid fa-angles-left"></i> หน้าแรก</a>
+      </li>`;
+
+      // ก่อนหน้า
+      pagination.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="goPage(${currentPage - 1}); return false;"><i class="fa-solid fa-chevron-left"></i> ก่อนหน้า</a>
+      </li>`;
+
+      // ปุ่มหน้าตัวเลข สูงสุด 6 ปุ่ม
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(pageCount, startPage + 5);
+      startPage = Math.max(1, endPage - 5);
+
+      for (let i = startPage; i <= endPage; i++) {
+        pagination.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+          <a class="page-link" href="#" onclick="goPage(${i}); return false;">${i}</a>
+        </li>`;
+      }
+
+      // ถัดไป
+      pagination.innerHTML += `<li class="page-item ${currentPage === pageCount ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="goPage(${currentPage + 1}); return false;">ถัดไป <i class="fa-solid fa-chevron-right"></i></a>
+      </li>`;
+
+      // หน้าสุดท้าย
+      pagination.innerHTML += `<li class="page-item ${currentPage === pageCount ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="goPage(${pageCount}); return false;">หน้าสุดท้าย <i class="fa-solid fa-angles-right"></i></a>
+      </li>`;
+    }
+
+    // ฟังก์ชัน Jump To Page
+    function jumpToPage() {
+      const pageInput = parseInt(document.getElementById("jumpPage").value);
+      const searchValue = document.getElementById("searchAdmin").value.toLowerCase();
+      const totalPages = Math.ceil(allData.filter(r => 
+        r.name.toLowerCase().includes(searchValue) ||
+        r.phone.toLowerCase().includes(searchValue) ||
+        r.group_name.toLowerCase().includes(searchValue)
+      ).length / rowsPerPage);
+
+      if (!isNaN(pageInput) && pageInput >= 1 && pageInput <= totalPages) {
+        currentPage = pageInput;
+        renderTable();
+      }
+    }
+
+    // เปลี่ยนหน้า
+    function goPage(page) {
+      currentPage = page;
+      renderTable();
+    }
+
+    // Filter แบบ Live Search
+    function filterData() {
+      currentPage = 1;
+      renderTable();
+    }
+
+    // เปลี่ยนจำนวนแถวต่อหน้า
+    function changeRowsPerPage() {
+      rowsPerPage = parseInt(document.getElementById("rowsPerPage").value);
+      currentPage = 1;
+      renderTable();
+    }
+
+    async function addRecord() {
+      const record = {
+        phone: document.getElementById("addPhone").value,
+        name: document.getElementById("addName").value,
+        group_name: document.getElementById("addGroup").value
+      };
+      try {
+        await fetch(`${API_URL}?action=addData`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(record)
+        });
+        loadData();
+        document.getElementById("addPhone").value = "";
+        document.getElementById("addName").value = "";
+        document.getElementById("addGroup").selectedIndex = 0;
+        bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
+      } catch (err) {
+        Swal.fire("Error", "บันทึกข้อมูลไม่สำเร็จ", "error");
+      }
+    }
+
+    function openEditModal(id, phone, name, group) {
+      document.getElementById("editId").value = id;
+      document.getElementById("editPhone").value = phone;
+      document.getElementById("editName").value = name;
+      document.getElementById("editGroup").value = group;
+      editModal.show();
+    }
+
+    // อัปเดตข้อมูล
+    async function updateRecord() {
+      const id = document.getElementById("editId").value;
+      const record = {
+        phone: document.getElementById("editPhone").value,
+        name: document.getElementById("editName").value,
+        group_name: document.getElementById("editGroup").value
+      };
+
+      Swal.fire({
+        title: 'กำลังอัปเดตข้อมูล',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      try {
+        await fetch(`${API_URL}?action=updateData&id=${id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(record)
+        });
+        loadData();
+        editModal.hide();
+        Swal.fire({
+          icon: 'success',
+          title: 'อัปเดตข้อมูลเสร็จสิ้น',
+          confirmButtonText: 'ตกลง',
+          confirmButtonColor: '#198754'
+        });
+      } catch (err) {
+        Swal.fire("Error", "อัปเดตข้อมูลไม่สำเร็จ", "error");
+      }
+    }
+
+    // ลบข้อมูล
+    async function deleteRecord(id) {
+      Swal.fire({
+        title: 'ต้องการลบข้อมูลหรือไม่?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ใช่',
+        cancelButtonText: 'ไม่',
+        confirmButtonColor: '#198754',
+        cancelButtonColor: '#dc3545'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'กำลังลบข้อมูล',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+          });
+
+          try {
+            await fetch(`${API_URL}?action=deleteData&id=${id}`, {
+              method: "POST"
+            });
+            loadData();
+            Swal.fire({
+              icon: 'success',
+              title: 'ลบข้อมูลเสร็จสิ้น',
+              confirmButtonText: 'ตกลง',
+              confirmButtonColor: '#198754'
+            });
+          } catch (err) {
+            Swal.fire("Error", "ลบข้อมูลไม่สำเร็จ", "error");
+          }
+        }
+      });
+    }
+
+    function refreshData() {
+      document.getElementById("searchAdmin").value = ""; // รีเซ็ตช่องค้นหา
+      rowsPerPage = parseInt(document.getElementById("rowsPerPage").value); // ใช้ค่า dropdown ปัจจุบัน
+      currentPage = 1;
+      loadData(); // โหลดข้อมูลทั้งหมดใหม่
+    }
+
+    let sortColumn = null;
+    let sortAsc = true;
+
+    function sortTable(column) {
+      if(sortColumn === column) sortAsc = !sortAsc;
+      else { sortColumn = column; sortAsc = true; }
+
+      allData.sort((a, b) => {
+        if(a[column] < b[column]) return sortAsc ? -1 : 1;
+        if(a[column] > b[column]) return sortAsc ? 1 : -1;
+        return 0;
+      });
+
+      renderTable();
+    }
+
+    function toggleCsvGroupSelect() {
+      const option = document.getElementById("exportCsvOption").value;
+      const groupDiv = document.getElementById("csvGroupSelectDiv");
+
+      if (option === "group") {
+        groupDiv.classList.remove("hidden");
+
+        // ดึงรายชื่อกลุ่มไม่ให้ซ้ำ
+        const uniqueGroups = [...new Set(allData.map(r => r.group_name))];
+        const groupSelect = document.getElementById("exportCsvGroup");
+        groupSelect.innerHTML = uniqueGroups.map(g => `<option value="${g}">${g}</option>`).join('');
+      } else {
+        groupDiv.classList.add("hidden");
+      }
+    }
+
+    function confirmExportCSV() {
+      const option = document.getElementById("exportCsvOption").value;
+      let exportData = [];
+
+      if (option === "all") {
+        exportData = allData;
+      } else {
+        const selectedGroup = document.getElementById("exportCsvGroup").value;
+        exportData = allData.filter(r => r.group_name === selectedGroup);
+      }
+
+      exportCSV(exportData);
+      bootstrap.Modal.getInstance(document.getElementById('exportCsvModal')).hide();
+    }
+
+    function exportCSV(data) {
+      const headers = ["ID","เบอร์โทร","ชื่อ","กลุ่ม"];
+      const csvContent = [headers.join(",")];
+
+      data.forEach(r => {
+        csvContent.push([r.id, r.phone, r.name, r.group_name].join(","));
+      });
+
+      // เพิ่ม BOM (\uFEFF) เพื่อให้ Excel อ่าน UTF-8 ได้
+      const blob = new Blob(["\uFEFF" + csvContent.join("\n")], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+
+      // ตั้งชื่อไฟล์ ถ้าเลือกกลุ่มจะใส่ชื่อกลุ่มด้วย
+      if (data.length > 0 && data.every(r => r.group_name === data[0].group_name)) {
+        a.download = `report_${data[0].group_name}.csv`;
+      } else {
+        a.download = 'report_all.csv';
+      }
+
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // function exportCSV() {
+    //   const headers = ["ID","เบอร์โทร","ชื่อ","กลุ่ม"];
+    //   const csvContent = [headers.join(",")];
+    //   allData.forEach(r => {
+    //     csvContent.push([r.id, r.phone, r.name, r.group_name].join(","));
+    //   });
+
+    //   // เพิ่ม BOM (\uFEFF) เพื่อให้ Excel อ่าน UTF-8 ได้
+    //   const blob = new Blob(["\uFEFF" + csvContent.join("\n")], { type: 'text/csv;charset=utf-8;' });
+    //   const url = URL.createObjectURL(blob);
+    //   const a = document.createElement('a');
+    //   a.href = url;
+    //   a.download = 'report.csv';
+    //   a.click();
+    //   URL.revokeObjectURL(url);
+    // }
+
+    function toggleGroupSelect() {
+      const option = document.getElementById("exportOption").value;
+      const groupDiv = document.getElementById("groupSelectDiv");
+      
+      if (option === "group") {
+        groupDiv.classList.remove("hidden");
+
+        // ดึงรายชื่อกลุ่มไม่ให้ซ้ำ
+        const uniqueGroups = [...new Set(allData.map(r => r.group_name))];
+        const groupSelect = document.getElementById("exportGroup");
+        groupSelect.innerHTML = uniqueGroups.map(g => `<option value="${g}">${g}</option>`).join('');
+      } else {
+        groupDiv.classList.add("hidden");
+      }
+    }
+
+    function confirmExportPDF() {
+      const option = document.getElementById("exportOption").value;
+      let exportData = [];
+
+      if (option === "all") {
+        exportData = allData;
+      } else {
+        const selectedGroup = document.getElementById("exportGroup").value;
+        exportData = allData.filter(r => r.group_name === selectedGroup);
+      }
+
+      exportPDF(exportData);
+      bootstrap.Modal.getInstance(document.getElementById('exportPdfModal')).hide();
+    }
+
+    function exportPDF(data) {
+      const content = createPrintableContent(data); 
+      document.body.appendChild(content);
+
+      html2canvas(content, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true
+      }).then(canvas => {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+          
+          const imgData = canvas.toDataURL('image/png');
+          const imgWidth = 190;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          
+          doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+          doc.save('thai_report.pdf');
+          
+          document.body.removeChild(content);
+      });
+    }
+
+    function createPrintableContent(data) {
+      const div = document.createElement('div');
+      div.style.cssText = `
+          position: fixed;
+          top: -10000px;
+          left: 0;
+          width: 210mm;
+          min-height: 297mm;
+          background: white;
+          padding: 20mm;
+          font-family: 'Tahoma', 'Arial', sans-serif;
+          font-size: 14px;
+          line-height: 1.5;
+          color: black;
+      `;
+
+      div.innerHTML = `
+          <h1 style="text-align: center; margin-bottom: 30px; color: #333;">รายงานผู้เข้าร่วม</h1>
+          <div style="margin-bottom: 20px;">
+              <strong>วันที่พิมพ์:</strong> ${new Date().toLocaleDateString('th-TH')}
+          </div>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+              <thead>
+                  <tr style="background-color: #f0f0f0;">
+                      <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">ลำดับ</th>
+                      <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">เบอร์โทร</th>
+                      <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">ชื่อ-นามสกุล</th>
+                      <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">กลุ่ม</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  ${data.map(row => `
+                      <tr>
+                          <td style="border: 1px solid #ccc; padding: 8px;">${row.id}</td>
+                          <td style="border: 1px solid #ccc; padding: 8px;">${row.phone}</td>
+                          <td style="border: 1px solid #ccc; padding: 8px;">${row.name}</td>
+                          <td style="border: 1px solid #ccc; padding: 8px;">${row.group_name}</td>
+                      </tr>
+                  `).join('')}
+              </tbody>
+          </table>
+          <div style="margin-top: 30px; text-align: right;">
+              <p>จำนวนผู้เข้าร่วมทั้งหมด: <strong>${data.length}</strong> คน</p>
+          </div>
+      `;
+
+      return div;
+    }
+
+    // function exportPDF() {
+    //     const content = createPrintableContent(); // สร้าง HTML ที่ต้องการ
+    //     document.body.appendChild(content);
+
+    //     html2canvas(content, {
+    //         scale: 2,
+    //         useCORS: true,
+    //         allowTaint: true
+    //     }).then(canvas => {
+    //         const { jsPDF } = window.jspdf;
+    //         const doc = new jsPDF();
+            
+    //         const imgData = canvas.toDataURL('image/png');
+    //         const imgWidth = 190;
+    //         const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            
+    //         doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+    //         doc.save('thai_report.pdf');
+            
+    //         document.body.removeChild(content);
+    //     });
+    // }
+
+    //     function createPrintableContent() {
+    //         const div = document.createElement('div');
+    //         div.style.cssText = `
+    //             position: fixed;
+    //             top: -10000px;
+    //             left: 0;
+    //             width: 210mm;
+    //             min-height: 297mm;
+    //             background: white;
+    //             padding: 20mm;
+    //             font-family: 'Tahoma', 'Arial', sans-serif;
+    //             font-size: 14px;
+    //             line-height: 1.5;
+    //             color: black;
+    //         `;
+
+    //         div.innerHTML = `
+    //             <h1 style="text-align: center; margin-bottom: 30px; color: #333;">รายงานผู้เข้าร่วม</h1>
+    //             <div style="margin-bottom: 20px;">
+    //                 <strong>วันที่พิมพ์:</strong> ${new Date().toLocaleDateString('th-TH')}
+    //             </div>
+    //             <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    //                 <thead>
+    //                     <tr style="background-color: #f0f0f0;">
+    //                         <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">ลำดับ</th>
+    //                         <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">เบอร์โทร</th>
+    //                         <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">ชื่อ-นามสกุล</th>
+    //                         <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">กลุ่ม</th>
+    //                     </tr>
+    //                 </thead>
+    //                 <tbody>
+    //                     ${allData.map(row => `
+    //                         <tr>
+    //                             <td style="border: 1px solid #ccc; padding: 8px;">${row.id}</td>
+    //                             <td style="border: 1px solid #ccc; padding: 8px;">${row.phone}</td>
+    //                             <td style="border: 1px solid #ccc; padding: 8px;">${row.name}</td>
+    //                             <td style="border: 1px solid #ccc; padding: 8px;">${row.group_name}</td>
+    //                         </tr>
+    //                     `).join('')}
+    //                 </tbody>
+    //             </table>
+    //             <div style="margin-top: 30px; text-align: right;">
+    //                 <p>จำนวนผู้เข้าร่วมทั้งหมด: <strong>${allData.length}</strong> คน</p>
+    //             </div>
+    //         `;
+
+    //         return div;
+    //     }
+
+    // ปุ่มตัวเลข
+    document.querySelectorAll('.num-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const input = document.getElementById('phoneInput');
+        input.value += this.textContent;
+      });
+    });
+
+    // ปุ่มลบ
+    document.getElementById('backspace').addEventListener('click', function() {
+      const input = document.getElementById('phoneInput');
+      input.value = input.value.slice(0, -1);
+    });
+
+    // ป้องกันการพิมพ์ตัวอักษรด้วยคีย์บอร์ด
+    document.getElementById('phoneInput').addEventListener('keydown', function(e) {
+      e.preventDefault();
+    });
+
+    // function downloadImage() {
+    //   const resultCard = document.querySelector("#result .result-card");
+    //   if (!resultCard) return;
+
+    //   // ✅ ฟังก์ชันรอให้รูปใน resultCard โหลดเสร็จก่อน
+    //   function waitForImages(element) {
+    //     const imgs = element.querySelectorAll("img");
+    //     return Promise.all([...imgs].map(img => {
+    //       if (img.complete) return Promise.resolve();
+    //       return new Promise(resolve => {
+    //         img.onload = resolve;
+    //         img.onerror = resolve;
+    //       });
+    //     }));
+    //   }
+
+    //   // ✅ สร้าง canvas พื้นหลังแนวตั้ง 1080x1920
+    //   const canvas = document.createElement("canvas");
+    //   canvas.width = 1080;
+    //   canvas.height = 1920;
+    //   const ctx = canvas.getContext("2d");
+
+    //   // ใส่พื้นหลัง
+    //   const background = new Image();
+    //   background.crossOrigin = "anonymous";
+    //   background.src = "https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUTOPENHOUSE_Graphic01.jpg";
+
+    //   background.onload = function () {
+    //     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+    //     // ใส่โลโก้ (ขนาดเท่ากับ CSS .app-logo)
+    //     const logo = new Image();
+    //     logo.crossOrigin = "anonymous";
+    //     logo.src = "https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUTOPENHOUSE_Logo01.png";
+
+    //     logo.onload = function () {
+    //       // ✅ ขยายโลโก้ตามขนาด canvas (40% ของความกว้าง)
+    //       const targetWidth = canvas.width * 0.4; 
+    //       const scale = targetWidth / logo.width;
+    //       const logoWidth = targetWidth;
+    //       const logoHeight = logo.height * scale;
+
+    //       // ✅ ให้อยู่ตรงกลางด้านบน
+    //       const logoX = (canvas.width - logoWidth) / 2;
+    //       const logoY = 60; // ระยะห่างจากขอบบน
+
+    //       ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
+
+    //       // ✅ รอให้รูปใน resultCard โหลดเสร็จ
+    //       waitForImages(resultCard).then(() => {
+    //         html2canvas(resultCard, {
+    //           backgroundColor: null,
+    //           useCORS: true,
+    //           scale: 2
+    //         }).then(cardCanvas => {
+    //           // ✅ คำนวณ scale ให้การ์ดพอดีกับพื้นที่
+    //           const maxWidth = canvas.width * 0.85;
+    //           const maxHeight = canvas.height * 0.65;
+    //           let scale = Math.min(maxWidth / cardCanvas.width, maxHeight / cardCanvas.height);
+
+    //           const cardX = (canvas.width - cardCanvas.width * scale) / 2;
+    //           const cardY = (canvas.height - cardCanvas.height * scale) / 2 + 150; // เผื่อโลโก้ด้านบน
+
+    //           ctx.drawImage(cardCanvas, cardX, cardY, cardCanvas.width * scale, cardCanvas.height * scale);
+
+    //           // ✅ ดาวน์โหลดไฟล์
+    //           const link = document.createElement("a");
+    //           link.download = "group_story.jpg";
+    //           link.href = canvas.toDataURL("image/jpeg", 0.95);
+    //           link.click();
+    //         });
+    //       });
+    //     };
+    //   };
+    // }
+
+    function downloadImage() {
+      const resultCard = document.querySelector("#result .result-card");
+      if (!resultCard) return;
+
+      // ✅ ฟังก์ชันรอให้รูปใน resultCard โหลดเสร็จก่อน
+      function waitForImages(element) {
+        const imgs = element.querySelectorAll("img");
+        return Promise.all([...imgs].map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
+        }));
+      }
+
+      // ✅ canvas แนวตั้ง 1080x1920
+      const canvas = document.createElement("canvas");
+      canvas.width = 1080;
+      canvas.height = 1920;
+      const ctx = canvas.getContext("2d");
+
+      // ใส่พื้นหลัง
+      const background = new Image();
+      background.crossOrigin = "anonymous";
+      background.src =
+        "https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUTOPENHOUSE_Graphic01.jpg";
+
+      background.onload = function () {
+        drawImageCover(ctx, background, canvas.width, canvas.height);
+
+        // โลโก้บน
+        const logoTop = new Image();
+        logoTop.crossOrigin = "anonymous";
+        logoTop.src =
+          "https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUTOPENHOUSE_Logo01.png";
+
+        logoTop.onload = function () {
+          const targetWidth = canvas.width * 0.5;
+          const scale = targetWidth / logoTop.width;
+          const logoWidth = targetWidth;
+          const logoHeight = logoTop.height * scale;
+
+          const logoX = (canvas.width - logoWidth) / 2;
+          const logoY = 60;
+
+          ctx.drawImage(logoTop, logoX, logoY, logoWidth, logoHeight);
+
+          // ✅ รอให้รูปในการ์ดโหลดครบ
+          waitForImages(resultCard).then(() => {
+            html2canvas(resultCard, {
+              backgroundColor: null,
+              useCORS: true,
+              scale: 2,
+            }).then((cardCanvas) => {
+              // ✅ คำนวณ scale
+              const maxWidth = canvas.width * 0.85;
+              const maxHeight = canvas.height * 0.65;
+              let scale = Math.min(maxWidth / cardCanvas.width, maxHeight / cardCanvas.height);
+
+              const cardX = (canvas.width - cardCanvas.width * scale) / 2;
+
+              // 🔹 ขยับขึ้น (เดิม 60 → 30)
+              const marginBelowLogo = 0;
+              const cardY = logoY + logoHeight + marginBelowLogo;
+
+              ctx.drawImage(cardCanvas, cardX, cardY, cardCanvas.width * scale, cardCanvas.height * scale);
+
+              // โลโก้ล่าง
+              const logoBottom = new Image();
+              logoBottom.crossOrigin = "anonymous";
+              logoBottom.src =
+                "https://raw.githubusercontent.com/LogicsDevStudio/EBS-RTNMU/refs/heads/main/images/RTUT_logo_ENG_White.png";
+
+              logoBottom.onload = function () {
+                const bottomWidth = canvas.width * 0.25;
+                const bottomScale = bottomWidth / logoBottom.width;
+                const bottomLogoWidth = bottomWidth;
+                const bottomLogoHeight = logoBottom.height * bottomScale;
+
+                const bottomX = (canvas.width - bottomLogoWidth) / 2;
+                const bottomY = canvas.height - bottomLogoHeight - 40;
+
+                ctx.drawImage(logoBottom, bottomX, bottomY, bottomLogoWidth, bottomLogoHeight);
+
+                // ✅ ดาวน์โหลด
+                const link = document.createElement("a");
+                link.download = "group_story.jpg";
+                link.href = canvas.toDataURL("image/jpeg", 0.95);
+                link.click();
+              };
+            });
+          });
+        };
+      };
+    }
+
+    // ฟังก์ชันวาดภาพแบบ cover (ไม่บีบ)
+    function drawImageCover(ctx, img, canvasWidth, canvasHeight) {
+      const imgRatio = img.width / img.height;
+      const canvasRatio = canvasWidth / canvasHeight;
+
+      let drawWidth, drawHeight, offsetX, offsetY;
+
+      if (imgRatio > canvasRatio) {
+        // รูปกว้างกว่า → ยึดความสูง
+        drawHeight = canvasHeight;
+        drawWidth = img.width * (canvasHeight / img.height);
+        offsetX = (canvasWidth - drawWidth) / 2;
+        offsetY = 0;
+      } else {
+        // รูปสูงกว่า → ยึดความกว้าง
+        drawWidth = canvasWidth;
+        drawHeight = img.height * (canvasWidth / img.width);
+        offsetX = 0;
+        offsetY = (canvasHeight - drawHeight) / 2;
+      }
+
+      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+    }
+  </script>
+</body>
 </html>
